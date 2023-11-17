@@ -1,0 +1,5 @@
+{
+  "git.autofetch": true,
+  "editor.formatOnSave": true,
+  "python.defaultInterpreterPath": "./.venv/bin/python"
+}
