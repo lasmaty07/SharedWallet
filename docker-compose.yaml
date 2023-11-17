@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  sharedwallet-backend:
+    container_name: sharedwallet-backend
+    build:
+      context: .
+      args:
+        - APP_ENV=dev
+      dockerfile: ./deployment/Dockerfile
+    command: uvicorn main:app --reload --host 0.0.0.0 --port 6000
+    env_file:
+      - .env
+    volumes:
+      - ./src:/src:cached
+    ports:
+      - 6000:6000
+    restart: always
+    depends_on:
+      - postgres-sharedwallet
+    stdin_open: true
+    tty: true
+
+  postgres-sharedwallet:
+    image: postgres:14-alpine
+    container_name: postgres-sharedwallet
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5445:5432"
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    restart: always
+

@@ -1,0 +1,12 @@
+.vscode
+.github
+.env
+.venv
+.ruff_cache
+__pycache__
+docker-compose*y*ml
+postgresql/*
+*.sql
+README.md
+certs/*
+scripts/*
