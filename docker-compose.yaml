@@ -14,7 +14,7 @@ services:
     volumes:
       - ./src:/src:cached
     ports:
-      - 6000:6000
+      - 9004:9004
     restart: always
     depends_on:
       - postgres-sharedwallet
