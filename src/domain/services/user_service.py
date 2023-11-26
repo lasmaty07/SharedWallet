@@ -24,16 +24,16 @@ class UserService:
 
     def get_users(self, page_size: int, page: int) -> List[UserCreate]:
         return [
-            self.repository.to_domain(template)
-            for template in self.repository.get_all(page_size, page)
+            self.repository.to_domain(user)
+            for user in self.repository.get_all(page_size, page)
         ]
 
     def get_user(self, user_id: int) -> UserRead:
         instance: User = self.repository.get(user_id)
         if not instance:
             raise EntityNotExists
-        template_read = self.repository.to_domain(instance)
-        return template_read
+        user_read = self.repository.to_domain(instance)
+        return user_read
 
     def create_user(
         self,
