@@ -28,3 +28,25 @@ ruff = "^0.0.286"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+ignore = ["I", "E501", "F811", "E711"]
+select = ["E", "F", "W"]
+line-length = 79
+fixable = ["I"]
+exclude = [".env", ".venv", "venv", "src/infrastructure/persistance/migrations"]
+show-source = true
+
+[tool.black]
+line-length = 79
+force-exclude = '''
+/(
+  | .env
+  | .venv
+  | .mako
+  | venv
+  | notebooks
+  | src/infrastructure/persistance/migrations*
+  | postgresql/data/*
+)/
+'''
