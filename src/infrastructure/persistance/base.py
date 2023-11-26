@@ -24,13 +24,17 @@ class SQLBaseModel(Base):
         return camel_to_snake(cls.__name__)
 
     id = Column(Integer, primary_key=True)
-    created_at: datetime = Column(DateTime(timezone=True), default=datetime.utcnow)
+    created_at: datetime = Column(
+        DateTime(timezone=True), default=datetime.utcnow
+    )
     updated_at: datetime = Column(
         DateTime(timezone=True),
         default=datetime.utcnow,
         onupdate=datetime.utcnow,
     )
-    deleted_at: datetime = Column(DateTime(timezone=True), index=True, nullable=True)
+    deleted_at: datetime = Column(
+        DateTime(timezone=True), index=True, nullable=True
+    )
 
     def as_dict(self):
         return {

@@ -10,7 +10,9 @@ from api.v1.schemas.user_schemas import (
 
 from domain.exceptions import EntityNotExists
 from infrastructure.persistance.models.user import User
-from infrastructure.persistance.repositories.user_repository import UserRepository
+from infrastructure.persistance.repositories.user_repository import (
+    UserRepository,
+)
 from passlib.context import CryptContext
 
 

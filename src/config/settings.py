@@ -27,7 +27,9 @@ class Settings(BaseSettings):
     DB_SERVER: str = environ.get("DB_SERVER", "postgres-sharedwallet")
     DB_PORT: str = environ.get("DB_PORT", "5432")
     DB_NAME: str = environ.get("DB_NAME")
-    DATABASE_URI: str = f"//{DB_USER}:{DB_PASSWORD}@{DB_SERVER}:{DB_PORT}/{DB_NAME}"
+    DATABASE_URI: str = (
+        f"//{DB_USER}:{DB_PASSWORD}@{DB_SERVER}:{DB_PORT}/{DB_NAME}"
+    )
     DATABASE_URL: str = f"{DB_ENGINE}:{DATABASE_URI}"
 
     # CORS Middleware

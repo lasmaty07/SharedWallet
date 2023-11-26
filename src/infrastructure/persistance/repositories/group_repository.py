@@ -76,7 +76,9 @@ class GroupRepository:
         return self.to_domain(group)
 
     def delete(self, group_id: int):
-        group = self.session.execute(select(Group).where(Group.id == group_id)).first()
+        group = self.session.execute(
+            select(Group).where(Group.id == group_id)
+        ).first()
         if group:
             group[0].deleted_at = datetime.now()
             self.session.commit()

@@ -84,7 +84,9 @@ class UserRepository:
         return self.to_domain(user)
 
     def delete(self, user_id: int):
-        user = self.session.execute(select(User).where(User.id == user_id)).first()
+        user = self.session.execute(
+            select(User).where(User.id == user_id)
+        ).first()
         if user:
             user[0].deleted_at = datetime.now()
             self.session.commit()

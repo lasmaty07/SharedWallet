@@ -23,7 +23,9 @@ user_router = APIRouter()
 # -------------- Users -----------------
 
 
-@user_router.get(" ", status_code=status.HTTP_200_OK, response_model=List[UserRead])
+@user_router.get(
+    " ", status_code=status.HTTP_200_OK, response_model=List[UserRead]
+)
 def get_users(
     page_size: int = 10,
     page: int = 0,
@@ -33,7 +35,9 @@ def get_users(
     return service.get_users(page_size, page)
 
 
-@user_router.get("/{user_id}", status_code=status.HTTP_200_OK, response_model=UserRead)
+@user_router.get(
+    "/{user_id}", status_code=status.HTTP_200_OK, response_model=UserRead
+)
 def get_user(
     user_id: int,
     service: UserService = Depends(user_service),
