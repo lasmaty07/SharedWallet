@@ -41,7 +41,8 @@ class UserService:
         self,
         user_create: UserCreate,
     ) -> UserRead:
-        user_create.password == pwd_context.hash(user_create.password)
+        user_create.email = user_create.email.lower()
+        user_create.password = pwd_context.hash(user_create.password)
         user = self.repository.to_persistance(user_create)
         user_read = self.repository.add(user)
         return user_read
