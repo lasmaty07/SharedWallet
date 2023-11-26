@@ -26,3 +26,23 @@ class UserNotFound(DetailedHTTPException):
 class UserAlreadyExists(DetailedHTTPException):
     STATUS_CODE = status.HTTP_409_CONFLICT
     DETAIL = "User already exists"
+
+
+class GroupAlreadyExists(DetailedHTTPException):
+    STATUS_CODE = status.HTTP_409_CONFLICT
+    DETAIL = "Group already exists"
+
+
+class GroupNotFound(DetailedHTTPException):
+    STATUS_CODE = status.HTTP_404_NOT_FOUND
+    DETAIL = "Group not found. Maybe it does not exist, it was deleted or you do not have access to it."
+
+
+class ExpenseAlreadyExists(DetailedHTTPException):
+    STATUS_CODE = status.HTTP_409_CONFLICT
+    DETAIL = "Expense already exists"
+
+
+class ExpenseNotFound(DetailedHTTPException):
+    STATUS_CODE = status.HTTP_404_NOT_FOUND
+    DETAIL = "Expense not found. Maybe it does not exist, it was deleted or you do not have access to it."
