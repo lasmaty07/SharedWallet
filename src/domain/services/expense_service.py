@@ -7,7 +7,7 @@ from api.v1.schemas.expense_schemas import (
     ExpenseUpdate,
 )
 from domain.exceptions import EntityNotExists
-from src.infrastructure.persistance.models.expense import Expense
+from infrastructure.persistance.models.expense import Expense
 from infrastructure.persistance.repositories.expense_repository import (
     ExpenseRepository,
 )
