@@ -7,9 +7,14 @@ from api.v1.schemas.user_schemas import (
     UserUpdate,
 )
 
+
 from domain.exceptions import EntityNotExists
 from infrastructure.persistance.models.user import User
 from infrastructure.persistance.repositories.user_repository import UserRepository
+from passlib.context import CryptContext
+
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class UserService:
@@ -34,6 +39,7 @@ class UserService:
         self,
         user_create: UserCreate,
     ) -> UserRead:
+        user_create.password == pwd_context.hash(user_create.password)
         user = self.repository.to_persistance(user_create)
         user_read = self.repository.add(user)
         return user_read
