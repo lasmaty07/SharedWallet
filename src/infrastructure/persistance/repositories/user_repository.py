@@ -78,7 +78,7 @@ class UserRepository:
         if user:
             return self.to_domain(user[0])
 
-    def get_password_by_email(self, user_email: int):
+    def get_password_by_email(self, user_email: str) -> str:
         user = self.session.execute(
             select(User).where(
                 User.email == user_email,
@@ -87,6 +87,16 @@ class UserRepository:
         ).first()
         if user:
             return user[0].password
+        
+    def get_user_by_email(self, user_email: str) -> int:
+        user = self.session.execute(
+            select(User).where(
+                User.email == user_email,
+                User.deleted_at == None,
+            )
+        ).first()
+        if user:
+            return user[0].id
 
     def update(self, user: User) -> UserRead:
         self.session.commit()
