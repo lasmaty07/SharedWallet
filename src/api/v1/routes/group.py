@@ -49,7 +49,9 @@ def get_group(
         raise GroupNotFound
 
 
-@group_router.post("", status_code=status.HTTP_201_CREATED, response_model=None)
+@group_router.post(
+    "", status_code=status.HTTP_201_CREATED, response_model=None
+)
 def create_group(
     group: GroupCreate,
     service: GroupService = Depends(group_service),

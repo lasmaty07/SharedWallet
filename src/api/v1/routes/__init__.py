@@ -9,4 +9,6 @@ api_router = APIRouter()
 
 api_router.include_router(user_router, prefix="/users", tags=["Users"])
 api_router.include_router(group_router, prefix="/groups", tags=["Groups"])
-api_router.include_router(expense_router, prefix="/expenses", tags=["Expenses"])
+api_router.include_router(
+    expense_router, prefix="/expenses", tags=["Expenses"]
+)

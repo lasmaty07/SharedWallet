@@ -4,3 +4,7 @@ class EntityNotExists(Exception):
 
 class EntityAlreadyExists(Exception):
     pass
+
+
+class IncorrectPassword(Exception):
+    pass

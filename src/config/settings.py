@@ -37,6 +37,16 @@ class Settings(BaseSettings):
     CORS_ORIGINS_REGEX: str = environ.get("CORS_ORIGINS_REGEX", "")
     CORS_HEADERS: list[str] = environ.get("CORS_HEADERS", ["*"])
 
+    # JWT
+    # Token Generation
+    JWT_SECRET_KEY: str = environ.get("JWT_SECRET_KEY")
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(
+        environ.get("AT_EXPIRE_MINUTES", "60")
+    )
+    REFRESH_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 14
+    PASSWORD_RESET_TOKEN_EXPIRE_MINUTES: int = 360
+
 
 @lru_cache()
 def get_settings():

@@ -1,19 +1,26 @@
+from datetime import datetime, timedelta
 from typing import List
 from sqlalchemy.orm import Session
+from jose import ExpiredSignatureError, JWTError, jwt
+from passlib.context import CryptContext
 
 from api.v1.schemas.user_schemas import (
+    TokenResponse,
+    UserLogin,
     UserRead,
     UserCreate,
     UserUpdate,
+    UserFull,
 )
 
 
-from domain.exceptions import EntityNotExists
+from domain.exceptions import EntityNotExists, IncorrectPassword
 from infrastructure.persistance.models.user import User
 from infrastructure.persistance.repositories.user_repository import (
     UserRepository,
 )
-from passlib.context import CryptContext
+
+from config.settings import settings
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -36,6 +43,13 @@ class UserService:
             raise EntityNotExists
         user_read = self.repository.to_domain(instance)
         return user_read
+
+    def get_user_by_email(self, user_email: str) -> UserFull:
+        instance: User = self.repository.get_password_by_email(user_email)
+        if not instance:
+            raise EntityNotExists
+        user_full = self.repository.to_domain(instance)
+        return user_full
 
     def create_user(
         self,
@@ -61,5 +75,32 @@ class UserService:
         user_read = self.repository.update(user)
         return user_read
 
-    def delete_user(self, user_id: int):
+    def delete_user(self, user_id: int) -> None:
         return self.repository.delete(user_id)
+
+    def authenticate_user(self, user_login: UserLogin) -> TokenResponse:
+        user_password = self.repository.get_password_by_email(user_login.email)
+        if not self.verify_password(user_login.password, user_password):
+            raise IncorrectPassword
+
+        return self.create_token(user_login.email)
+
+
+    def verify_password(self, plaintext_password, hashed_password):
+        return pwd_context.verify(plaintext_password, hashed_password)
+
+    def create_token(self, user_email: str) -> TokenResponse:
+        expire = datetime.utcnow() + timedelta(
+            minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
+        )
+        to_encode = {"exp": expire, "email": user_email}
+
+        encoded_jwt = jwt.encode(
+            to_encode,
+            settings.JWT_SECRET_KEY,
+            algorithm=settings.ALGORITHM,
+        )
+        return {
+            "access_token": encoded_jwt,
+            "token_type": "bearer",
+        }

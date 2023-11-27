@@ -49,7 +49,9 @@ def get_expense(
         raise ExpenseNotFound
 
 
-@expense_router.post("", status_code=status.HTTP_201_CREATED, response_model=None)
+@expense_router.post(
+    "", status_code=status.HTTP_201_CREATED, response_model=None
+)
 def create_expense(
     expense: ExpenseCreate,
     service: ExpenseService = Depends(expense_service),

@@ -6,12 +6,14 @@ from fastapi import (
 )
 
 from domain.services.user_service import UserService
-from domain.exceptions import EntityNotExists, EntityAlreadyExists
-from .exceptions import UserNotFound, UserAlreadyExists
+from domain.exceptions import EntityNotExists, EntityAlreadyExists, IncorrectPassword
+from .exceptions import IncorrectEmailOrPassword, UserNotFound, UserAlreadyExists
 from ..schemas.user_schemas import (
     UserRead,
     UserUpdate,
     UserCreate,
+    TokenResponse,
+    UserLogin,
 )
 
 # from ..dependencies.auth import authenticate
@@ -102,3 +104,19 @@ def update_user(
         return user.dict()
     except EntityNotExists:
         raise UserNotFound
+
+
+@user_router.post(
+    "/login",
+    status_code=status.HTTP_200_OK,
+    response_model=TokenResponse,
+)
+def login(
+    user_login: UserLogin,
+    service: UserService = Depends(user_service),
+):
+    try:
+        user_login.email = user_login.email.lower()
+        return service.authenticate_user(user_login)
+    except IncorrectPassword:
+        raise IncorrectEmailOrPassword

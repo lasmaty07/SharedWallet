@@ -46,3 +46,8 @@ class ExpenseAlreadyExists(DetailedHTTPException):
 class ExpenseNotFound(DetailedHTTPException):
     STATUS_CODE = status.HTTP_404_NOT_FOUND
     DETAIL = "Expense not found. Maybe it does not exist, it was deleted or you do not have access to it."
+
+
+class IncorrectEmailOrPassword(DetailedHTTPException):
+    STATUS_CODE = status.HTTP_400_BAD_REQUEST
+    DETAIL = "Email does not exists or password is incorrect"
