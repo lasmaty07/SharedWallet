@@ -16,7 +16,7 @@ from ..schemas.user_schemas import (
     UserLogin,
 )
 
-# from ..dependencies.auth import authenticate
+from ..dependencies.auth import authenticate
 from ..dependencies.user import user_service
 
 
@@ -32,7 +32,7 @@ def get_users(
     page_size: int = 10,
     page: int = 0,
     service: UserService = Depends(user_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> List[UserRead]:
     return service.get_users(page_size, page)
 
@@ -43,7 +43,7 @@ def get_users(
 def get_user(
     user_id: int,
     service: UserService = Depends(user_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> UserRead:
     try:
         return service.get_user(user_id)
@@ -55,7 +55,6 @@ def get_user(
 def create_user(
     user: UserCreate,
     service: UserService = Depends(user_service),
-    # username=Depends(authenticate),
 ) -> None:
     user = UserCreate(
         email=user.email,
@@ -77,7 +76,7 @@ def create_user(
 def delete_user(
     user_id: int,
     service: UserService = Depends(user_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> None:
     try:
         service.delete_user(user_id)
@@ -94,7 +93,7 @@ def update_user(
     user_id: int,
     user_input: UserUpdate,
     service: UserService = Depends(user_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> UserRead:
     try:
         user: UserRead = service.update_user(

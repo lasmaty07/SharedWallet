@@ -14,7 +14,7 @@ from ..schemas.expense_schemas import (
     ExpenseCreate,
 )
 
-# from ..dependencies.auth import authenticate
+from ..dependencies.auth import authenticate
 from ..dependencies.expense import expense_service
 
 
@@ -30,7 +30,7 @@ def get_expenses(
     page_size: int = 10,
     page: int = 0,
     service: ExpenseService = Depends(expense_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> List[ExpenseRead]:
     return service.get_expenses(page_size, page)
 
@@ -41,7 +41,7 @@ def get_expenses(
 def get_expense(
     expense_id: int,
     service: ExpenseService = Depends(expense_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> ExpenseRead:
     try:
         return service.get_expense(expense_id)
@@ -55,7 +55,7 @@ def get_expense(
 def create_expense(
     expense: ExpenseCreate,
     service: ExpenseService = Depends(expense_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> None:
     expense = ExpenseCreate(
         name=expense.name,
@@ -75,7 +75,7 @@ def create_expense(
 def delete_expense(
     expense_id: int,
     service: ExpenseService = Depends(expense_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> None:
     try:
         service.delete_expense(expense_id)
@@ -92,7 +92,7 @@ def update_expense(
     expense_id: int,
     expense_input: ExpenseUpdate,
     service: ExpenseService = Depends(expense_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> ExpenseRead:
     try:
         expense: ExpenseRead = service.update_expense(

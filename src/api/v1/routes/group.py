@@ -14,7 +14,7 @@ from ..schemas.group_schemas import (
     GroupCreate,
 )
 
-# from ..dependencies.auth import authenticate
+from ..dependencies.auth import authenticate
 from ..dependencies.group import group_service
 
 
@@ -30,7 +30,7 @@ def get_groups(
     page_size: int = 10,
     page: int = 0,
     service: GroupService = Depends(group_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> List[GroupRead]:
     return service.get_groups(page_size, page)
 
@@ -41,7 +41,7 @@ def get_groups(
 def get_group(
     group_id: int,
     service: GroupService = Depends(group_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> GroupRead:
     try:
         return service.get_group(group_id)
@@ -55,7 +55,7 @@ def get_group(
 def create_group(
     group: GroupCreate,
     service: GroupService = Depends(group_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> None:
     group = GroupCreate(
         name=group.name,
@@ -75,7 +75,7 @@ def create_group(
 def delete_group(
     group_id: int,
     service: GroupService = Depends(group_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> None:
     try:
         service.delete_group(group_id)
@@ -92,7 +92,7 @@ def update_group(
     group_id: int,
     group_input: GroupUpdate,
     service: GroupService = Depends(group_service),
-    # username=Depends(authenticate),
+    username=Depends(authenticate),
 ) -> GroupRead:
     try:
         group: GroupRead = service.update_group(
