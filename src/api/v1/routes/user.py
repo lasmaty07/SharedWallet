@@ -6,8 +6,16 @@ from fastapi import (
 )
 
 from domain.services.user_service import UserService
-from domain.exceptions import EntityNotExists, EntityAlreadyExists, IncorrectPassword
-from .exceptions import IncorrectEmailOrPassword, UserNotFound, UserAlreadyExists
+from domain.exceptions import (
+    EntityNotExists,
+    EntityAlreadyExists,
+    IncorrectPassword,
+)
+from .exceptions import (
+    IncorrectEmailOrPassword,
+    UserNotFound,
+    UserAlreadyExists,
+)
 from ..schemas.user_schemas import (
     UserRead,
     UserUpdate,

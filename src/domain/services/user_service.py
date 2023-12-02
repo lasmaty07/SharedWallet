@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
 from typing import List
+
 from sqlalchemy.orm import Session
-from jose import ExpiredSignatureError, JWTError, jwt
+from jose import jwt
 from passlib.context import CryptContext
 
 from api.v1.schemas.user_schemas import (
@@ -12,8 +13,6 @@ from api.v1.schemas.user_schemas import (
     UserUpdate,
     UserFull,
 )
-
-
 from domain.exceptions import EntityNotExists, IncorrectPassword
 from infrastructure.persistance.models.user import User
 from infrastructure.persistance.repositories.user_repository import (
@@ -79,15 +78,11 @@ class UserService:
         return self.repository.delete(user_id)
 
     def authenticate_user(self, user_login: UserLogin) -> TokenResponse:
-        user_password = self.repository.get_password_by_email(user_login.email)
-        if not self.verify_password(user_login.password, user_password):
+        user = self.repository.get_user_by_email(user_login.email)
+        if not user.check_password(user_login.password):
             raise IncorrectPassword
 
         return self.create_token(user_login.email)
-
-
-    def verify_password(self, plaintext_password, hashed_password):
-        return pwd_context.verify(plaintext_password, hashed_password)
 
     def create_token(self, user_email: str) -> TokenResponse:
         expire = datetime.utcnow() + timedelta(

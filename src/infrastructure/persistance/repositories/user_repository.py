@@ -87,7 +87,7 @@ class UserRepository:
         ).first()
         if user:
             return user[0].password
-        
+
     def get_user_by_email(self, user_email: str) -> int:
         user = self.session.execute(
             select(User).where(
